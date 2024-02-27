@@ -30,5 +30,8 @@ app.put('/api/v1/blog',(c) => {
 app.get('api/v1/blog/:id',(c)=>{
   return c.text('This is blog3')
 })
+app.get('/api/v1/admin',(c)=>{
+  return c.text('this is admin')
+})
 
 export default app
