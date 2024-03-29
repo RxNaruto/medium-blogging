@@ -10,10 +10,19 @@ const app = new Hono<{
 
 
 
-app.post('/api/v1/signup',(c) => {
+app.post('/api/v1/signup',async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
 }).$extends(withAccelerate())
+const body = await c.req.json();
+
+await prisma.user.create({
+  data: {
+  email: body.email,
+  password: body.password,
+  }
+  
+})
   return c.text('This is signup') 
 })
 
