@@ -9,7 +9,19 @@ const app = new Hono<{
   }
 }>()
 
-
+app.use('/api/v1/blog/*' , async(c,next)=>{
+  const header = c.req.header("authorization") || "";
+  const token = header.split(" ")[1];
+  const response = await verify(header,"secret")
+  if(response.id){
+    next();
+  }
+  else{
+    c.status(403)
+    return c.json({error: "unauthorized"})
+  }
+  await next()
+})
 
 app.post('/api/v1/signup',async (c) => {
   const prisma = new PrismaClient({
