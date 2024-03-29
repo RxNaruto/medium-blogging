@@ -8,15 +8,13 @@ const app = new Hono<{
   }
 }>()
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+
 
 app.post('/api/v1/signup',(c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
 }).$extends(withAccelerate())
-  return c.text('This is signup')
+  return c.text('This is signup') 
 })
 
 app.post('/api/v1/signin',(c) => {
