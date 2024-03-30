@@ -58,3 +58,7 @@ userRouter.post('/signin',async (c) => {
       jwt: token
     })
   })
+
+userRouter.get("/test1",async(c)=>{
+    return c.text("welcome to my blog")
+})
