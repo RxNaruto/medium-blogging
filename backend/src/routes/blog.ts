@@ -18,14 +18,22 @@ blogRouter.use("/*", async(c,next)=>{
 
     if(user){
         c.set("userId", user.id);
+       await  next();
+    }
+    else{
+        c.status(403);
+        return c.json({
+            msg: "You are not authorized"
+        })
     }
 
-  next();
+  
 })
 
-blogRouter.get('/',async (c) => {
+blogRouter.post('/',async (c) => {
 
     const body = await c.req.json();
+    const authorId = c.get("userId");
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
@@ -34,7 +42,7 @@ blogRouter.get('/',async (c) => {
         data:{
             title: body.title,
             content: body.content,
-            authorid: "1"
+            authorid: authorId
 
         }
     })
